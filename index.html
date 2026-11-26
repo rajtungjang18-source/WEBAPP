@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1457c5" />
+  <title>WEBAPP — শিক্ষাৰ সহজ ঠিকনা</title>
+  <style>
+    :root {
+      --blue: #1457c5;
+      --blue-dark: #103f91;
+      --sky: #eaf2ff;
+      --ink: #17233b;
+      --muted: #66738b;
+      --line: #e5eaf2;
+      --bg: #f6f8fc;
+      --white: #ffffff;
+      --green: #16845b;
+      --shadow: 0 8px 28px rgba(24, 55, 105, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Noto Sans Assamese", "Noto Sans", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    button, input { font: inherit; }
+    .wrap { width: min(100% - 28px, 980px); margin: auto; }
+    header {
+      color: white;
+      background: linear-gradient(135deg, var(--blue-dark), #2878ec);
+      padding: 18px 0 30px;
+      border-radius: 0 0 26px 26px;
+    }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand { font-size: 1.35rem; font-weight: 850; letter-spacing: .5px; }
+    .tag { font-size: .78rem; color: #dce9ff; margin-top: 2px; }
+    .menu {
+      border: 1px solid rgba(255,255,255,.35); color: white;
+      background: rgba(255,255,255,.12); border-radius: 12px;
+      padding: 8px 12px;
+    }
+    .hero { padding-top: 28px; }
+    .eyebrow {
+      display:inline-block; background:rgba(255,255,255,.15);
+      color:#e7f0ff; padding:6px 10px; border-radius:99px; font-size:.75rem;
+    }
+    h1 { font-size: clamp(1.8rem, 7vw, 2.7rem); line-height:1.2; margin:14px 0 8px; }
+    .hero p { color:#e1ebff; margin:0 0 20px; line-height:1.6; }
+    .search {
+      display:flex; gap:8px; background:white; padding:7px;
+      border-radius:15px; box-shadow:var(--shadow);
+    }
+    .search input { min-width:0; flex:1; border:0; outline:0; padding:9px; color:var(--ink); }
+    .search button {
+      border:0; border-radius:11px; background:var(--blue);
+      color:white; padding:10px 14px; font-weight:700;
+    }
+    main { padding:24px 0 40px; }
+    .section { margin: 0 0 25px; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:10px; margin-bottom:13px; }
+    h2 { font-size:1.12rem; margin:0; }
+    .sub { color:var(--muted); font-size:.82rem; margin:5px 0 0; }
+    .link { color:var(--blue); font-size:.82rem; font-weight:700; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    .card {
+      background:var(--white); border:1px solid var(--line);
+      border-radius:17px; padding:15px; box-shadow:0 3px 12px rgba(24,55,105,.035);
+    }
+    .course { display:flex; gap:13px; align-items:center; }
+    .icon {
+      width:46px; height:46px; flex:0 0 46px; display:grid; place-items:center;
+      background:var(--sky); color:var(--blue); border-radius:14px; font-size:1.4rem;
+    }
+    .course strong { display:block; font-size:.95rem; }
+    .course small { color:var(--muted); display:block; margin-top:4px; line-height:1.35; }
+    .resource { cursor:pointer; text-align:left; color:var(--ink); width:100%; }
+    .resource:active, .chapter:active { transform:scale(.98); }
+    .resource .icon { margin-bottom:10px; }
+    .resource strong { display:block; font-size:.9rem; }
+    .resource small { color:var(--muted); display:block; margin-top:4px; }
+    .featured {
+      background:linear-gradient(120deg,#fff,#eef5ff);
+      border:1px solid #dce8ff; border-radius:19px; padding:17px;
+    }
+    .pill { display:inline-block; font-size:.7rem; color:var(--green); background:#e7f7ef; padding:5px 9px; border-radius:99px; font-weight:750; }
+    .featured h3 { margin:10px 0 5px; font-size:1.05rem; }
+    .featured p { color:var(--muted); margin:0 0 13px; font-size:.85rem; line-height:1.5; }
+    .primary {
+      border:0; border-radius:11px; padding:11px 14px; color:white;
+      background:var(--blue); font-weight:750; cursor:pointer;
+    }
+    .chapters { display:grid; gap:9px; }
+    .chapter {
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      width:100%; text-align:left; background:white; border:1px solid var(--line);
+      border-radius:13px; padding:13px; cursor:pointer; color:var(--ink);
+    }
+    .chapter b { font-size:.88rem; display:block; }
+    .chapter small { color:var(--muted); display:block; margin-top:4px; }
+    .arrow { color:var(--blue); font-size:1.2rem; }
+    .notice {
+      background:#fff8e8; border:1px solid #f5e5bb; color:#77551b;
+      border-radius:13px; padding:12px; font-size:.8rem; line-height:1.5;
+    }
+    footer { border-top:1px solid var(--line); padding:20px 0 28px; color:var(--muted); text-align:center; font-size:.78rem; }
+    .empty { display:none; color:var(--muted); padding:12px 2px; font-size:.88rem; }
+    @media (min-width:650px) {
+      .grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .resources { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .hero { max-width:700px; }
+      header { padding-bottom:42px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div>
+          <div class="brand">📘 WEBAPP</div>
+          <div class="tag">শিক্ষাৰ সহজ ঠিকনা</div>
+        </div>
+        <button class="menu" type="button" aria-label="Menu" onclick="alert('Menu feature will be added later.')">☰</button>
+      </div>
+      <div class="hero">
+        <span class="eyebrow">অসমীয়া মাধ্যমৰ শিক্ষাৰ্থীৰ বাবে</span>
+        <h1>শিকোঁ আহক, আগবাঢ়োঁ আহক!</h1>
+        <p>প্ৰশ্নোত্তৰ, MCQ, পুৰণি প্ৰশ্নকাকত আৰু অনুশীলনী পৰীক্ষা — সকলো একে ঠাইতে।</p>
+        <form class="search" id="searchForm">
+          <input id="searchInput" type="search" placeholder="বিষয়, অধ্যায় বা প্ৰশ্ন বিচাৰক..." aria-label="Search learning materials" />
+          <button type="submit">বিচাৰক</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section">
+      <div class="section-head">
+        <div><h2>আপোনাৰ শ্ৰেণী বাছনি কৰক</h2><p class="sub">Choose your class</p></div>
+        <span class="link">সকলো চাওক →</span>
+      </div>
+      <div class="grid">
+        <div class="card course">
+          <div class="icon">🎒</div><div><strong>দশম শ্ৰেণী</strong><small>ASSEB • অসমীয়া মাধ্যম</small></div>
+        </div>
+        <div class="card course">
+          <div class="icon">📚</div><div><strong>নৱম শ্ৰেণী</strong><small>শীঘ্ৰেই আহি আছে</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>শিক্ষণ সামগ্ৰী</h2><p class="sub">Learning resources</p></div></div>
+      <div class="grid resources" id="resources">
+        <button class="card resource" data-search="question answer প্ৰশ্নোত্তৰ">
+          <div class="icon">✍️</div><strong>প্ৰশ্নোত্তৰ</strong><small>Chapter-wise answers</small>
+        </button>
+        <button class="card resource" data-search="mcq বহুবিকল্পী">
+          <div class="icon">☑️</div><strong>MCQ অনুশীলন</strong><small>উত্তৰ আৰু ব্যাখ্যাসহ</small>
+        </button>
+        <button class="card resource" data-search="pyq previous year পুৰণি প্ৰশ্নকাকত">
+          <div class="icon">📄</div><strong>পুৰণি প্ৰশ্নকাকত</strong><small>Previous year questions</small>
+        </button>
+        <button class="card resource" data-search="mock test অনুশীলনী পৰীক্ষা">
+          <div class="icon">⏱️</div><strong>Mock Test</strong><small>নিজকে পৰীক্ষা কৰক</small>
+        </button>
+        <button class="card resource" data-search="notes টোকা">
+          <div class="icon">📖</div><strong>পাঠ্য টোকা</strong><small>সহজ ভাষাত অধ্যায়ৰ সাৰাংশ</small>
+        </button>
+        <button class="card resource" data-search="assignment project এচাইনমেণ্ট">
+          <div class="icon">📝</div><strong>Assignment সহায়</strong><small>কামৰ নমুনা আৰু গাইড</small>
+        </button>
+      </div>
+      <p class="empty" id="emptyState">কোনো মিল থকা সামগ্ৰী পোৱা নগ'ল। আন শব্দৰে বিচাৰক।</p>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>Featured Course</h2><p class="sub">আমাৰ প্ৰথম পাঠ্যক্ৰম</p></div></div>
+      <div class="featured">
+        <span class="pill">প্ৰথম সংস্কৰণ</span>
+        <h3>দশম শ্ৰেণী — সাধাৰণ বিজ্ঞান</h3>
+        <p>অসমীয়া মাধ্যমৰ শিক্ষাৰ্থীৰ বাবে অধ্যায় অনুসৰি প্ৰশ্নোত্তৰ, MCQ, PYQ আৰু পৰীক্ষাৰ প্ৰস্তুতি।</p>
+        <button class="primary" type="button" onclick="showMessage('দশম শ্ৰেণীৰ বিজ্ঞানৰ পাঠ্যক্ৰম অতি সোনকালে যোগ কৰা হ’ব।')">পাঠ্যক্ৰম চাওক →</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>অধ্যায়সমূহ</h2><p class="sub">Class 10 • General Science (sample list)</p></div></div>
+      <div class="chapters" id="chapters">
+        <button class="chapter" data-search="ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ chemical reactions equations"><span><b>অধ্যায় ১: ৰাসায়নিক বিক্ৰিয়া আৰু সমীকৰণ</b><small>প্ৰশ্নোত্তৰ • MCQ • Notes</small></span><span class="arrow">›</span></button>
+        <button class="chapter" data-search="এচিড ক্ষাৰক আৰু লৱণ acids bases salts"><span><b>অধ্যায় ২: এচিড, ক্ষাৰক আৰু লৱণ</b><small>প্ৰশ্নোত্তৰ • MCQ • Notes</small></span><span class="arrow">›</span></button>
+        <button class="chapter" data-search="ধাতু আৰু অধাতু metals non metals"><span><b>অধ্যায় ৩: ধাতু আৰু অধাতু</b><small>প্ৰশ্নোত্তৰ • MCQ • Notes</small></span><span class="arrow">›</span></button>
+      </div>
+      <div class="notice" style="margin-top:12px">টোকা: এইবোৰ কেৱল homepage prototype-ৰ নমুনা। প্ৰকাশ কৰাৰ আগতে বৰ্তমানৰ ASSEB পাঠ্যক্ৰম আৰু পাঠ্যপুথিৰ সৈতে অধ্যায়ৰ নাম মিলাই ল’ব লাগিব।</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 WEBAPP • শিক্ষাৰ সহজ ঠিকনা<br/>শিক্ষা সকলোৰে বাবে ❤️</div>
+  </footer>
+
+  <script>
+    function showMessage(message) { alert(message); }
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('searchInput');
+    const searchable = [...document.querySelectorAll('[data-search]')];
+    const empty = document.getElementById('emptyState');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const query = input.value.trim().toLocaleLowerCase();
+      let matches = 0;
+      searchable.forEach(item => {
+        const text = (item.innerText + ' ' + item.dataset.search).toLocaleLowerCase();
+        const found = !query || text.includes(query);
+        item.style.display = found ? '' : 'none';
+        if (found) matches++;
+      });
+      empty.style.display = matches ? 'none' : 'block';
+    });
+    input.addEventListener('input', function() {
+      if (!input.value.trim()) {
+        searchable.forEach(item => item.style.display = '');
+        empty.style.display = 'none';
+      }
+    });
+    searchable.forEach(item => item.addEventListener('click', () => {
+      showMessage('এই section-ৰ content পৰৱৰ্তী ধাপত যোগ কৰা হ’ব।');
+    }));
+  </script>
+</body>
+</html>
